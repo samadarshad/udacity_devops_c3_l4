@@ -4,7 +4,7 @@ version: 2.1
 
 commands:
   destroy_environment_on_fail:
-    steps:
+    steps:      
       - run:
           name: Destroy environment
           command: |
@@ -57,8 +57,18 @@ jobs:
     # Exercise: Config and Deployment
   smoke_test: 
     docker:
-      - image: amazon/aws-cli
+      - image: python:3.7-alpine3.11
     steps:
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl
+            /usr/local/bin/python -m pip install --upgrade pip    
+      - run:
+          name: Install aws
+          command: |    
+            pip install awscli --upgrade   
+            aws --version 
       - run: apk add --update curl
       - run:
           name: smoke test
